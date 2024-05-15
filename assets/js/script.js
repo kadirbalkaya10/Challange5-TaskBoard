@@ -44,6 +44,59 @@ function createTaskCard(task) {
     click: handleDeleteTask,
   }).appendTo(taskContainer);
 
+  switch (task.type) {
+    case "in-progress":
+      taskContainer.addClass("bg-primary text-white");
+      break;
+    case "done":
+      taskContainer.addClass("bg-success text-white");
+      break;
+    default:
+      // Default color
+      taskContainer.addClass("bg-light");
+  }
+
+  const dueDate = new Date(task.date);
+  const currentDate = new Date();
+
+  // Extract day, month, and year components from due date and current date
+  const dueDay = dueDate.getDate();
+  const dueMonth = dueDate.getMonth();
+  const dueYear = dueDate.getFullYear();
+
+  const currentDay = currentDate.getDate();
+  const currentMonth = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
+
+  // Compare only the day, month, and year components
+  if (
+    (dueYear < currentYear && task.type !== "done") ||
+    (dueYear === currentYear &&
+      dueMonth < currentMonth &&
+      task.type !== "done") ||
+    (dueYear === currentYear &&
+      dueMonth === currentMonth &&
+      dueDay < currentDay &&
+      task.type !== "done")
+  ) {
+    // Due date has passed
+    taskContainer.addClass("bg-danger text-white");
+  }
+
+  // Check if the date is today (without considering hours, minutes, seconds)
+  if (
+    dueYear === currentYear &&
+    dueMonth === currentMonth &&
+    dueDay === currentDay &&
+    task.type !== "done"
+  ) {
+    taskContainer.addClass("bg-warning text-white");
+  }
+
+  // Apply green background color if the task is done
+  if (task.type === "done") {
+    taskContainer.addClass("bg-success");
+  }
   return taskContainer;
 }
 
