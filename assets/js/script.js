@@ -80,7 +80,7 @@ function createTaskCard(task) {
       task.type !== "done")
   ) {
     // Due date has passed
-    taskContainer.addClass("bg-danger text-white");
+    taskContainer.addClass("bg-danger");
   }
 
   // Check if the date is today (without considering hours, minutes, seconds)
@@ -90,7 +90,7 @@ function createTaskCard(task) {
     dueDay === currentDay &&
     task.type !== "done"
   ) {
-    taskContainer.addClass("bg-warning text-white");
+    taskContainer.addClass("bg-warning");
   }
 
   // Apply green background color if the task is done
